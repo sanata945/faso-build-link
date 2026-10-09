@@ -12,8 +12,13 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as AuthenticatedDevisRouteImport } from './routes/_authenticated/devis'
 import { Route as AuthenticatedEspaceRouteImport } from './routes/_authenticated/espace'
+import { Route as AuthenticatedOpportunitesRouteImport } from './routes/_authenticated/opportunites'
 import { Route as AuthenticatedProfilRouteImport } from './routes/_authenticated/profil'
+import { Route as AuthenticatedContratsIndexRouteImport } from './routes/_authenticated/contrats.index'
+import { Route as AuthenticatedContratsIdRouteImport } from './routes/_authenticated/contrats.$id'
 import { Route as AuthenticatedDemandesIndexRouteImport } from './routes/_authenticated/demandes.index'
 import { Route as AuthenticatedDemandesIdRouteImport } from './routes/_authenticated/demandes.$id'
 import { Route as AuthenticatedDemandesNouvelleRouteImport } from './routes/_authenticated/demandes.nouvelle'
@@ -32,14 +37,41 @@ const AuthRoute = AuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedDevisRoute = AuthenticatedDevisRouteImport.update({
+  id: '/devis',
+  path: '/devis',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedEspaceRoute = AuthenticatedEspaceRouteImport.update({
   id: '/espace',
   path: '/espace',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedOpportunitesRoute =
+  AuthenticatedOpportunitesRouteImport.update({
+    id: '/opportunites',
+    path: '/opportunites',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedProfilRoute = AuthenticatedProfilRouteImport.update({
   id: '/profil',
   path: '/profil',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedContratsIndexRoute =
+  AuthenticatedContratsIndexRouteImport.update({
+    id: '/contrats/',
+    path: '/contrats/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedContratsIdRoute = AuthenticatedContratsIdRouteImport.update({
+  id: '/contrats/$id',
+  path: '/contrats/$id',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedDemandesIndexRoute =
@@ -63,19 +95,29 @@ const AuthenticatedDemandesNouvelleRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/admin': typeof AuthenticatedAdminRoute
+  '/devis': typeof AuthenticatedDevisRoute
   '/espace': typeof AuthenticatedEspaceRoute
+  '/opportunites': typeof AuthenticatedOpportunitesRoute
   '/profil': typeof AuthenticatedProfilRoute
+  '/contrats/$id': typeof AuthenticatedContratsIdRoute
   '/demandes/$id': typeof AuthenticatedDemandesIdRoute
   '/demandes/nouvelle': typeof AuthenticatedDemandesNouvelleRoute
+  '/contrats/': typeof AuthenticatedContratsIndexRoute
   '/demandes/': typeof AuthenticatedDemandesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/admin': typeof AuthenticatedAdminRoute
+  '/devis': typeof AuthenticatedDevisRoute
   '/espace': typeof AuthenticatedEspaceRoute
+  '/opportunites': typeof AuthenticatedOpportunitesRoute
   '/profil': typeof AuthenticatedProfilRoute
+  '/contrats/$id': typeof AuthenticatedContratsIdRoute
   '/demandes/$id': typeof AuthenticatedDemandesIdRoute
   '/demandes/nouvelle': typeof AuthenticatedDemandesNouvelleRoute
+  '/contrats': typeof AuthenticatedContratsIndexRoute
   '/demandes': typeof AuthenticatedDemandesIndexRoute
 }
 export interface FileRoutesById {
@@ -83,10 +125,15 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRoute
+  '/_authenticated/devis': typeof AuthenticatedDevisRoute
   '/_authenticated/espace': typeof AuthenticatedEspaceRoute
+  '/_authenticated/opportunites': typeof AuthenticatedOpportunitesRoute
   '/_authenticated/profil': typeof AuthenticatedProfilRoute
+  '/_authenticated/contrats/$id': typeof AuthenticatedContratsIdRoute
   '/_authenticated/demandes/$id': typeof AuthenticatedDemandesIdRoute
   '/_authenticated/demandes/nouvelle': typeof AuthenticatedDemandesNouvelleRoute
+  '/_authenticated/contrats/': typeof AuthenticatedContratsIndexRoute
   '/_authenticated/demandes/': typeof AuthenticatedDemandesIndexRoute
 }
 export interface FileRouteTypes {
@@ -94,29 +141,44 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auth'
+    | '/admin'
+    | '/devis'
     | '/espace'
+    | '/opportunites'
     | '/profil'
+    | '/contrats/$id'
     | '/demandes/$id'
     | '/demandes/nouvelle'
+    | '/contrats/'
     | '/demandes/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/auth'
+    | '/admin'
+    | '/devis'
     | '/espace'
+    | '/opportunites'
     | '/profil'
+    | '/contrats/$id'
     | '/demandes/$id'
     | '/demandes/nouvelle'
+    | '/contrats'
     | '/demandes'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/auth'
+    | '/_authenticated/admin'
+    | '/_authenticated/devis'
     | '/_authenticated/espace'
+    | '/_authenticated/opportunites'
     | '/_authenticated/profil'
+    | '/_authenticated/contrats/$id'
     | '/_authenticated/demandes/$id'
     | '/_authenticated/demandes/nouvelle'
+    | '/_authenticated/contrats/'
     | '/_authenticated/demandes/'
   fileRoutesById: FileRoutesById
 }
@@ -149,6 +211,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/devis': {
+      id: '/_authenticated/devis'
+      path: '/devis'
+      fullPath: '/devis'
+      preLoaderRoute: typeof AuthenticatedDevisRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/espace': {
       id: '/_authenticated/espace'
       path: '/espace'
@@ -156,11 +232,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedEspaceRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/opportunites': {
+      id: '/_authenticated/opportunites'
+      path: '/opportunites'
+      fullPath: '/opportunites'
+      preLoaderRoute: typeof AuthenticatedOpportunitesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/profil': {
       id: '/_authenticated/profil'
       path: '/profil'
       fullPath: '/profil'
       preLoaderRoute: typeof AuthenticatedProfilRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/contrats/': {
+      id: '/_authenticated/contrats/'
+      path: '/contrats'
+      fullPath: '/contrats/'
+      preLoaderRoute: typeof AuthenticatedContratsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/contrats/$id': {
+      id: '/_authenticated/contrats/$id'
+      path: '/contrats/$id'
+      fullPath: '/contrats/$id'
+      preLoaderRoute: typeof AuthenticatedContratsIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/demandes/': {
@@ -188,18 +285,28 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
+  AuthenticatedDevisRoute: typeof AuthenticatedDevisRoute
   AuthenticatedEspaceRoute: typeof AuthenticatedEspaceRoute
+  AuthenticatedOpportunitesRoute: typeof AuthenticatedOpportunitesRoute
   AuthenticatedProfilRoute: typeof AuthenticatedProfilRoute
+  AuthenticatedContratsIdRoute: typeof AuthenticatedContratsIdRoute
   AuthenticatedDemandesIdRoute: typeof AuthenticatedDemandesIdRoute
   AuthenticatedDemandesNouvelleRoute: typeof AuthenticatedDemandesNouvelleRoute
+  AuthenticatedContratsIndexRoute: typeof AuthenticatedContratsIndexRoute
   AuthenticatedDemandesIndexRoute: typeof AuthenticatedDemandesIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAdminRoute: AuthenticatedAdminRoute,
+  AuthenticatedDevisRoute: AuthenticatedDevisRoute,
   AuthenticatedEspaceRoute: AuthenticatedEspaceRoute,
+  AuthenticatedOpportunitesRoute: AuthenticatedOpportunitesRoute,
   AuthenticatedProfilRoute: AuthenticatedProfilRoute,
+  AuthenticatedContratsIdRoute: AuthenticatedContratsIdRoute,
   AuthenticatedDemandesIdRoute: AuthenticatedDemandesIdRoute,
   AuthenticatedDemandesNouvelleRoute: AuthenticatedDemandesNouvelleRoute,
+  AuthenticatedContratsIndexRoute: AuthenticatedContratsIndexRoute,
   AuthenticatedDemandesIndexRoute: AuthenticatedDemandesIndexRoute,
 }
 
