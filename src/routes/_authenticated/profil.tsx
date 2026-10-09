@@ -4,6 +4,7 @@ import { useState, type FormEvent } from "react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useMe } from "@/lib/auth";
+import { useRefs } from "@/lib/refs";
 import { Button } from "@/components/ui/button";
 import { Card, Field, Loading, PageTitle } from "@/components/ui-kit";
 import { clientKindLabel, errMsg } from "@/lib/labels";
@@ -21,20 +22,7 @@ export const Route = createFileRoute("/_authenticated/profil")({
   component: Profil,
 });
 
-function useRefs() {
-  return useQuery({
-    queryKey: ["refs"],
-    staleTime: Infinity,
-    queryFn: async () => {
-      const [c, k] = await Promise.all([
-        supabase.from("cities").select("*").order("name"),
-        supabase.from("categories").select("*").order("name"),
-      ]);
-      return { cities: c.data ?? [], categories: k.data ?? [] };
-    },
-  });
-}
-export { useRefs };
+
 
 function Profil() {
   const { data: me } = useMe();

@@ -4,7 +4,7 @@ import { useState, type FormEvent } from "react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useMe } from "@/lib/auth";
-import { useRefs } from "./profil";
+import { useRefs } from "@/lib/refs";
 import { compressImage } from "@/lib/image";
 import { Button } from "@/components/ui/button";
 import { Card, Empty, Field, Loading, PageTitle } from "@/components/ui-kit";
