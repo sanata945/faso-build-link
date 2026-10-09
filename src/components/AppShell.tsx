@@ -3,7 +3,11 @@ import type { ReactNode } from "react";
 import { Home, ClipboardList, PlusCircle, FileSignature, User, Search, Receipt, Shield } from "lucide-react";
 import { useMe } from "@/lib/auth";
 
-type Item = { to: string; label: string; icon: typeof Home };
+type Item = {
+  to: "/espace" | "/demandes" | "/demandes/nouvelle" | "/opportunites" | "/devis" | "/contrats" | "/admin" | "/profil";
+  label: string;
+  icon: typeof Home;
+};
 
 export function AppShell({ children }: { children: ReactNode }) {
   const { data: me } = useMe();
