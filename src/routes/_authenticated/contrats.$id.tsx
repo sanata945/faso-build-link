@@ -62,7 +62,7 @@ function Contrat() {
     setBusy(true);
     const { error } = await fn();
     setBusy(false);
-    if (error) return toast.error(errMsg(error));
+    if (error) return void toast.error(errMsg(error));
     toast.success(ok);
     qc.invalidateQueries();
   }

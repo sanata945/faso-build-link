@@ -113,7 +113,7 @@ function ClientQuotes({ data }: { data: Data }) {
     setBusy(key);
     const { error, data: res } = await fn();
     setBusy(null);
-    if (error) return toast.error(errMsg(error));
+    if (error) return void toast.error(errMsg(error));
     toast.success(ok);
     await qc.invalidateQueries();
     return res;
@@ -210,7 +210,7 @@ function ClientQuotes({ data }: { data: Data }) {
 
 type Quote = Data["quotes"][number];
 
-function ProviderQuote({ requestId, open, quote }: { requestId: string; open: boolean; quote?: Quote }) {
+function ProviderQuote({ requestId, open, quote }: { requestId: string; open: boolean; quote?: Quote | undefined }) {
   const qc = useQueryClient();
   const [editing, setEditing] = useState(!quote);
   const [saving, setSaving] = useState(false);
@@ -227,14 +227,14 @@ function ProviderQuote({ requestId, open, quote }: { requestId: string; open: bo
       materials_details: String(f.get("materials_details") || "") || null,
       message: String(f.get("message") || "") || null,
     };
-    if (payload.total_price <= 0) return toast.error("Indiquez un prix.");
-    if (payload.duration_days < 1) return toast.error("Indiquez un délai d'au moins 1 jour.");
+    if (payload.total_price <= 0) return void toast.error("Indiquez un prix.");
+    if (payload.duration_days < 1) return void toast.error("Indiquez un délai d'au moins 1 jour.");
     setSaving(true);
     const { error } = quote
       ? await supabase.from("quotes").update(payload).eq("id", quote.id)
       : await supabase.from("quotes").insert({ ...payload, request_id: requestId });
     setSaving(false);
-    if (error) return toast.error(errMsg(error));
+    if (error) return void toast.error(errMsg(error));
     toast.success(quote ? "Devis modifié" : "Devis envoyé au client");
     setEditing(false);
     qc.invalidateQueries();
@@ -260,7 +260,7 @@ function ProviderQuote({ requestId, open, quote }: { requestId: string; open: bo
               onClick={async () => {
                 if (!confirm("Retirer ce devis ?")) return;
                 const { error } = await supabase.rpc("withdraw_quote", { _quote_id: quote.id });
-                if (error) return toast.error(errMsg(error));
+                if (error) return void toast.error(errMsg(error));
                 toast.success("Devis retiré");
                 qc.invalidateQueries();
               }}

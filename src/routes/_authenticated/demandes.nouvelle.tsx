@@ -42,7 +42,7 @@ function Nouvelle() {
     };
     const bmin = num("budget_min");
     const bmax = num("budget_max");
-    if (bmin != null && bmax != null && bmin > bmax) return toast.error("Le budget minimum dépasse le maximum.");
+    if (bmin != null && bmax != null && bmin > bmax) return void toast.error("Le budget minimum dépasse le maximum.");
     setSaving(true);
     try {
       const { data: req, error } = await supabase

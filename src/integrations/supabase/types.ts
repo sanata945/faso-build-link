@@ -668,6 +668,10 @@ export type Database = {
       }
       cancel_request: { Args: { _request_id: string }; Returns: undefined }
       confirm_contract: { Args: { _contract_id: string }; Returns: undefined }
+      has_quoted: {
+        Args: { _request_id: string; _uid: string }
+        Returns: boolean
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
