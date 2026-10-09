@@ -1,0 +1,23 @@
+import { createClient } from "@supabase/supabase-js";
+const url=process.env.VITE_SUPABASE_URL!, key=process.env.VITE_SUPABASE_PUBLISHABLE_KEY!;
+async function as(email:string){const s=createClient(url,key,{auth:{persistSession:false}});await s.auth.signInWithPassword({email,password:"TestFaso2026!x"});return s;}
+const c=await as("fasolink.client.test@mailinator.com"), p=await as("fasolink.presta.test@mailinator.com");
+const {data:reqs}=await p.from("job_requests").select("id,title");
+const r=reqs![0];
+const u1=await p.from("job_requests").update({title:"pirate"}).eq("id",r.id).select();
+console.log("presta modifie demande client ->", u1.data?.length?"AUTORISÉ (BUG)":"refusé");
+const u2=await c.from("job_requests").update({status:"termine"} as any).eq("id",r.id);
+console.log("client change statut directement ->", u2.error?"refusé":"AUTORISÉ (BUG)");
+const u3=await c.from("quotes").update({total_price:1}).neq("id","00000000-0000-0000-0000-000000000000").select();
+console.log("client modifie devis ->", u3.data?.length?"AUTORISÉ (BUG)":"refusé");
+const u4=await c.rpc("admin_set_suspended",{_user_id:"00000000-0000-0000-0000-000000000000",_suspended:true});
+console.log("client action admin ->", u4.error?"refusé":"AUTORISÉ (BUG)");
+const u5=await c.from("commissions").select("*");
+console.log("client lit commissions ->", u5.data?.length?"AUTORISÉ (BUG)":"refusé");
+const anon=createClient(url,key,{auth:{persistSession:false}});
+const u6=await anon.from("contracts").select("*");
+console.log("visiteur lit contrats ->", u6.data?.length?"AUTORISÉ (BUG)":"refusé");
+const u7=await c.from("profiles").update({suspended:false} as any).eq("id",(await c.auth.getUser()).data.user!.id);
+console.log("client modifie 'suspendu' ->", u7.error?"refusé":"AUTORISÉ (BUG)");
+const u8=await p.from("contracts").update({amount:1} as any).neq("id","00000000-0000-0000-0000-000000000000");
+console.log("presta modifie contrat ->", u8.error?"refusé":"AUTORISÉ (BUG)");
