@@ -10,7 +10,7 @@ const toneClass: Record<Tone, string> = {
   muted: "bg-muted text-muted-foreground",
 };
 
-export function StatusBadge({ label, tone }: { label: string; tone: Tone }) {
+export function StatusBadge({ label = "", tone = "muted" }: { label?: string | undefined; tone?: Tone | undefined }) {
   return (
     <span className={cn("inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold", toneClass[tone])}>
       {label}
@@ -18,7 +18,7 @@ export function StatusBadge({ label, tone }: { label: string; tone: Tone }) {
   );
 }
 
-export function PageTitle({ title, subtitle, action }: { title: string; subtitle?: string; action?: ReactNode }) {
+export function PageTitle({ title, subtitle, action }: { title: string; subtitle?: string | undefined; action?: ReactNode }) {
   return (
     <div className="mb-4 flex items-start justify-between gap-3">
       <div>
@@ -42,7 +42,7 @@ export function Loading() {
   return <div className="py-10 text-center text-sm text-muted-foreground">Chargement…</div>;
 }
 
-export function Field({ label, children, hint }: { label: string; children: ReactNode; hint?: string }) {
+export function Field({ label, children, hint }: { label: string; children: ReactNode; hint?: string | undefined }) {
   return (
     <label className="block space-y-1.5">
       <span className="text-sm font-semibold">{label}</span>

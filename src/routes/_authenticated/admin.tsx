@@ -130,7 +130,7 @@ function Users({ meId }: { meId: string }) {
                 variant="outline"
                 onClick={async () => {
                   const { error } = await supabase.rpc("admin_set_suspended", { _user_id: u.id, _suspended: !u.suspended });
-                  if (error) return toast.error(errMsg(error));
+                  if (error) return void toast.error(errMsg(error));
                   qc.invalidateQueries({ queryKey: ["admin-users"] });
                 }}
               >
@@ -142,7 +142,7 @@ function Users({ meId }: { meId: string }) {
                   variant="secondary"
                   onClick={async () => {
                     const { error } = await supabase.rpc("admin_set_verified", { _user_id: u.id, _verified: !u.verified });
-                    if (error) return toast.error(errMsg(error));
+                    if (error) return void toast.error(errMsg(error));
                     qc.invalidateQueries({ queryKey: ["admin-users"] });
                   }}
                 >
@@ -233,7 +233,7 @@ function Disputes() {
   if (!data?.length) return <Empty>Aucun litige signalé.</Empty>;
   async function resolve(id: string, status: "en_examen" | "resolu" | "rejete") {
     const { error } = await supabase.rpc("admin_resolve_dispute", { _dispute_id: id, _status: status, _resolution: notes[id] ?? "" });
-    if (error) return toast.error(errMsg(error));
+    if (error) return void toast.error(errMsg(error));
     toast.success("Litige mis à jour");
     qc.invalidateQueries({ queryKey: ["admin-disputes"] });
   }
