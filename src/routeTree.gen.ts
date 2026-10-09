@@ -15,6 +15,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedEspaceRouteImport } from './routes/_authenticated/espace'
 import { Route as AuthenticatedProfilRouteImport } from './routes/_authenticated/profil'
 import { Route as AuthenticatedDemandesIndexRouteImport } from './routes/_authenticated/demandes.index'
+import { Route as AuthenticatedDemandesIdRouteImport } from './routes/_authenticated/demandes.$id'
 import { Route as AuthenticatedDemandesNouvelleRouteImport } from './routes/_authenticated/demandes.nouvelle'
 
 const IndexRoute = IndexRouteImport.update({
@@ -47,6 +48,11 @@ const AuthenticatedDemandesIndexRoute =
     path: '/demandes/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedDemandesIdRoute = AuthenticatedDemandesIdRouteImport.update({
+  id: '/demandes/$id',
+  path: '/demandes/$id',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedDemandesNouvelleRoute =
   AuthenticatedDemandesNouvelleRouteImport.update({
     id: '/demandes/nouvelle',
@@ -59,6 +65,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/espace': typeof AuthenticatedEspaceRoute
   '/profil': typeof AuthenticatedProfilRoute
+  '/demandes/$id': typeof AuthenticatedDemandesIdRoute
   '/demandes/nouvelle': typeof AuthenticatedDemandesNouvelleRoute
   '/demandes/': typeof AuthenticatedDemandesIndexRoute
 }
@@ -67,6 +74,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/espace': typeof AuthenticatedEspaceRoute
   '/profil': typeof AuthenticatedProfilRoute
+  '/demandes/$id': typeof AuthenticatedDemandesIdRoute
   '/demandes/nouvelle': typeof AuthenticatedDemandesNouvelleRoute
   '/demandes': typeof AuthenticatedDemandesIndexRoute
 }
@@ -77,15 +85,29 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/_authenticated/espace': typeof AuthenticatedEspaceRoute
   '/_authenticated/profil': typeof AuthenticatedProfilRoute
+  '/_authenticated/demandes/$id': typeof AuthenticatedDemandesIdRoute
   '/_authenticated/demandes/nouvelle': typeof AuthenticatedDemandesNouvelleRoute
   '/_authenticated/demandes/': typeof AuthenticatedDemandesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/auth' | '/espace' | '/profil' | '/demandes/nouvelle' | '/demandes/'
+    | '/'
+    | '/auth'
+    | '/espace'
+    | '/profil'
+    | '/demandes/$id'
+    | '/demandes/nouvelle'
+    | '/demandes/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/espace' | '/profil' | '/demandes/nouvelle' | '/demandes'
+  to:
+    | '/'
+    | '/auth'
+    | '/espace'
+    | '/profil'
+    | '/demandes/$id'
+    | '/demandes/nouvelle'
+    | '/demandes'
   id:
     | '__root__'
     | '/'
@@ -93,6 +115,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/_authenticated/espace'
     | '/_authenticated/profil'
+    | '/_authenticated/demandes/$id'
     | '/_authenticated/demandes/nouvelle'
     | '/_authenticated/demandes/'
   fileRoutesById: FileRoutesById
@@ -147,6 +170,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDemandesIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/demandes/$id': {
+      id: '/_authenticated/demandes/$id'
+      path: '/demandes/$id'
+      fullPath: '/demandes/$id'
+      preLoaderRoute: typeof AuthenticatedDemandesIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/demandes/nouvelle': {
       id: '/_authenticated/demandes/nouvelle'
       path: '/demandes/nouvelle'
@@ -160,6 +190,7 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedEspaceRoute: typeof AuthenticatedEspaceRoute
   AuthenticatedProfilRoute: typeof AuthenticatedProfilRoute
+  AuthenticatedDemandesIdRoute: typeof AuthenticatedDemandesIdRoute
   AuthenticatedDemandesNouvelleRoute: typeof AuthenticatedDemandesNouvelleRoute
   AuthenticatedDemandesIndexRoute: typeof AuthenticatedDemandesIndexRoute
 }
@@ -167,6 +198,7 @@ interface AuthenticatedRouteRouteChildren {
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedEspaceRoute: AuthenticatedEspaceRoute,
   AuthenticatedProfilRoute: AuthenticatedProfilRoute,
+  AuthenticatedDemandesIdRoute: AuthenticatedDemandesIdRoute,
   AuthenticatedDemandesNouvelleRoute: AuthenticatedDemandesNouvelleRoute,
   AuthenticatedDemandesIndexRoute: AuthenticatedDemandesIndexRoute,
 }
